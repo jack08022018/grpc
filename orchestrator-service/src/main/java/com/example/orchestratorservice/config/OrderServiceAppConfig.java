@@ -14,10 +14,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Setter
 @Configuration
 @RequiredArgsConstructor
+@EnableScheduling
 public class OrderServiceAppConfig {
 
     @Bean

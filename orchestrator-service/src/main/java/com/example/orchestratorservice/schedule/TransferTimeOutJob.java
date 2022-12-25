@@ -15,7 +15,7 @@ public class TransferTimeOutJob {
 
     private final OrchestrationService orchestrationService;
 
-    @Scheduled(cron = "0 0/5 * ? * *")
+    @Scheduled(cron = "0 0/5 * * * *")
 //    @Scheduled(cron = "0/20 * * ? * *")
     public void executeTransferTimeOutJob() {
 

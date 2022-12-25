@@ -2,6 +2,7 @@ package com.example.receiverservice.service;
 
 import com.example.receiverservice.entity.TransactionEntity;
 import com.example.receiverservice.entity.UserEntity;
+import com.example.receiverservice.enumerator.Flag;
 import com.example.receiverservice.repository.TransactionRepository;
 import com.example.receiverservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.TimeUnit;
+
 @Slf4j
 @GrpcService
 @RequiredArgsConstructor
@@ -24,6 +27,8 @@ public class ReceiverService extends ReceiveServiceGrpc.ReceiveServiceImplBase {
     final ObjectMapper customObjectMapper;
     final UserRepository userRepository;
     final TransactionRepository transactionRepository;
+
+    public static Flag flag = Flag.TIMEOUT;
 
     private StatusRuntimeException getException(String message) {
         return Status.INVALID_ARGUMENT
@@ -35,7 +40,13 @@ public class ReceiverService extends ReceiveServiceGrpc.ReceiveServiceImplBase {
     @Transactional
     public void credit(ReceiveRequest dto, StreamObserver<ReceiveResponse> responseObserver) {
         ReceiveResponse response = ReceiveResponse.newBuilder().build();
-
+        if(flag == Flag.TIMEOUT) {
+            try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         String accountId = dto.getAccountId();
         UserEntity user = userRepository.findByAccountId(accountId);
         if(user == null) {
