@@ -12,14 +12,7 @@ public class ApiController {
 
     @GetMapping(value = "/changeFlag")
     public void changeFlag(@RequestParam String flag) throws Exception {
-        switch (flag) {
-            case "NORMAL":
-                ReceiverService.flag = ReceiverService.flag.NORMAL;
-                return;
-            case "TIMEOUT":
-                ReceiverService.flag = ReceiverService.flag.TIMEOUT;
-                return;
-        }
+
     }
 
 //    @GetMapping(value = "/getAllTransaction")

@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequiredArgsConstructor
-@RequestMapping(value = "/api")
+//@RestController
+//@RequiredArgsConstructor
+//@RequestMapping(value = "/api")
 public class ApiController {
 
-    final ApiService apiService;
-
-    @PostMapping(value = "/deduct")
-    public void deduct(@RequestBody TransactionDto dto) throws Exception {
-        apiService.deduct(dto);
-    }
+//    final ApiService apiService;
+//
+//    @PostMapping(value = "/deduct")
+//    public void deduct(@RequestBody TransactionDto dto) throws Exception {
+//        apiService.deduct(dto);
+//    }
 
 //    @GetMapping(value = "/getAllTransaction")
 //    public <T> T getAllTransaction() {

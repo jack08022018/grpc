@@ -16,9 +16,10 @@ import java.io.IOException;
 public class SenderServiceApplication implements CommandLineRunner {
     public static void main(String[] args) throws IOException, InterruptedException {
         SpringApplication.run(SenderServiceApplication.class, args);
-        //        new SpringApplicationBuilder(SenderServiceApplication.class)
-//                .web(WebApplicationType.NONE)
-//                .run(args);
+
+//        new SpringApplicationBuilder(SenderServiceApplication.class)
+//            .web(WebApplicationType.NONE)
+//            .run(args);
 
 //        Server server = ServerBuilder.forPort(9091).addService(new HelloServiceImpl()).build();
 //        server.start();

@@ -1,8 +1,9 @@
 package com.example.receiverservice.service;
 
+import com.example.receiverservice.entity.FlagEntity;
 import com.example.receiverservice.entity.TransactionEntity;
 import com.example.receiverservice.entity.UserEntity;
-import com.example.receiverservice.enumerator.Flag;
+import com.example.receiverservice.repository.FlagRepository;
 import com.example.receiverservice.repository.TransactionRepository;
 import com.example.receiverservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,8 +28,7 @@ public class ReceiverService extends ReceiveServiceGrpc.ReceiveServiceImplBase {
     final ObjectMapper customObjectMapper;
     final UserRepository userRepository;
     final TransactionRepository transactionRepository;
-
-    public static Flag flag = Flag.TIMEOUT;
+    final FlagRepository flagRepository;
 
     private StatusRuntimeException getException(String message) {
         return Status.INVALID_ARGUMENT
@@ -40,7 +40,8 @@ public class ReceiverService extends ReceiveServiceGrpc.ReceiveServiceImplBase {
     @Transactional
     public void credit(ReceiveRequest dto, StreamObserver<ReceiveResponse> responseObserver) {
         ReceiveResponse response = ReceiveResponse.newBuilder().build();
-        if(flag == Flag.TIMEOUT) {
+        FlagEntity flag = flagRepository.findFlag();
+        if(flag.getStatus().equals("TIMEOUT")) {
             try {
                 TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {

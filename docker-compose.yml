@@ -1,0 +1,28 @@
+version: '2'
+services:
+  orchestrator-service:
+    build:
+      context: orchestrator-service
+      dockerfile: Dockerfile
+    container_name: orchestrator-service
+    image: sacom-orchestrator:latest
+    ports:
+      - "9000:9000"
+
+  receiver-service:
+    build:
+      context: receiver-service
+      dockerfile: Dockerfile
+    container_name: receiver-service
+    image: sacom-receiver-service:latest
+    ports:
+      - "9002:9002"
+
+  sender-service:
+    build:
+      context: sender-service
+      dockerfile: Dockerfile
+    container_name: sender-service
+    image: sacom-sender-service:latest
+    ports:
+      - "9001:9001"
