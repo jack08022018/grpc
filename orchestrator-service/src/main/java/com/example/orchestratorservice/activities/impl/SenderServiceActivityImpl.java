@@ -19,14 +19,15 @@ public class SenderServiceActivityImpl implements SenderServiceActivity {
     @Override
     public void deductMoney(TransferMoneySenderRequestDto dto) {
         log.info("Deduct Money Activity: ");
-        SenderServiceGrpc.SenderServiceBlockingStub stub = grpcChannelService.getGrpcStubSender();
+        SenderServiceGrpc.SenderServiceBlockingStub stubSender = grpcChannelService.getGrpcStubSender();
         TransactionRequest request = TransactionRequest.newBuilder()
                 .setTransactionId(dto.getTransactionId())
                 .setAccountId(dto.getAccountId())
                 .setRecipientId(dto.getRecipientId())
                 .setDebitAmount(dto.getDebitAmount().longValue())
                 .build();
-        stub.deduct(request);
+        var response = stubSender.deduct(request);
+        System.out.println(response);
 //        var res = senderUserClient.deductMoney(transferMoneyReceiverRequestDto);
 
     }
@@ -35,13 +36,13 @@ public class SenderServiceActivityImpl implements SenderServiceActivity {
     public void refundMoney(TransferMoneySenderRequestDto dto) {
         log.info("Refund Money Activity: ");
 //        var response = senderUserClient.refund(transferMoneyReceiverRequestDto);
-        SenderServiceGrpc.SenderServiceBlockingStub stub = grpcChannelService.getGrpcStubSender();
+        SenderServiceGrpc.SenderServiceBlockingStub stubSender = grpcChannelService.getGrpcStubSender();
         TransactionRequest request = TransactionRequest.newBuilder()
                 .setTransactionId(dto.getTransactionId())
                 .setAccountId(dto.getAccountId())
                 .setRecipientId(dto.getRecipientId())
                 .setDebitAmount(dto.getDebitAmount().longValue())
                 .build();
-        stub.deduct(request);
+        stubSender.refund(request);
     }
 }

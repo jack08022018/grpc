@@ -27,7 +27,7 @@ public class ReceiverServiceActivityImpl implements ReceiverServiceActivity {
     @Override
     public void updateMoney(TransferMoneyReceiverRequestDto dto) throws TimeoutException {
         log.info("Update money for user receiver", true);
-        ReceiveServiceGrpc.ReceiveServiceBlockingStub stub = grpcChannelService.getGrpcStubReceiver();
+        ReceiveServiceGrpc.ReceiveServiceBlockingStub stubReceiver = grpcChannelService.getGrpcStubReceiver();
         try {
             ReceiveRequest request = ReceiveRequest.newBuilder()
                     .setTransactionId(dto.getTransactionId())
@@ -35,7 +35,7 @@ public class ReceiverServiceActivityImpl implements ReceiverServiceActivity {
                     .setTransferId(dto.getTransferId())
                     .setCreditAmount(dto.getCreditAmount().longValue())
                     .build();
-            stub.credit(request);
+            stubReceiver.credit(request);
 //            var updateMoneyReceiverUserResponse = receiverUserClient.updateMoney(dto);
 //        } catch (Exception e) {
 //            if (e instanceof RetryableException || e instanceof SocketTimeoutException) {

@@ -42,11 +42,13 @@ public class SenderService extends SenderServiceGrpc.SenderServiceImplBase {
         UserEntity user = userRepository.findByAccountId(accountId);
         if(user == null) {
             responseObserver.onError(getException("User sender not found"));
+            responseObserver.onCompleted();
         }
         Long ballance = user.getBallanceAmount();
         Long debit = dto.getDebitAmount();
         if(ballance.compareTo(debit) < 0) {
             responseObserver.onError(getException("Sender not enough money"));
+            responseObserver.onCompleted();
         }
         user.setBallanceAmount(ballance - debit);
         userRepository.save(user);
@@ -66,6 +68,7 @@ public class SenderService extends SenderServiceGrpc.SenderServiceImplBase {
                 .findByTransactionId(dto.getTransactionId());
         if(!transactionOptional.isPresent()) {
             responseObserver.onError(getException("Transaction sender not found"));
+            responseObserver.onCompleted();
         }
         TransactionEntity transaction = transactionOptional.get();
         String accountId = dto.getAccountId();
@@ -73,12 +76,15 @@ public class SenderService extends SenderServiceGrpc.SenderServiceImplBase {
         Long debitAmount = dto.getDebitAmount();
         if(!accountId.equals(transaction.getAccountId())) {
             responseObserver.onError(getException("AccountId sender not correct"));
+            responseObserver.onCompleted();
         }
         if(!recipientId.equals(transaction.getRecipientId())) {
             responseObserver.onError(getException("RecipientId not correct"));
+            responseObserver.onCompleted();
         }
         if(debitAmount.compareTo(transaction.getDebitAmount()) != 0) {
             responseObserver.onError(getException("Debit Amount not correct"));
+            responseObserver.onCompleted();
         }
         UserEntity user = userRepository.findByAccountId(accountId);
         user.setBallanceAmount(user.getBallanceAmount() + debitAmount);

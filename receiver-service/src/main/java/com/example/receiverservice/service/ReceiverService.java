@@ -40,6 +40,7 @@ public class ReceiverService extends ReceiveServiceGrpc.ReceiveServiceImplBase {
         UserEntity user = userRepository.findByAccountId(accountId);
         if(user == null) {
             responseObserver.onError(getException("User receiver not found"));
+            responseObserver.onCompleted();
         }
         String transactionId = dto.getTransactionId();
         if(!transactionRepository.existsByTransactionId(transactionId)) {
