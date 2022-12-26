@@ -19,7 +19,7 @@ public class TransferTimeOutJob {
 
     private final OrchestrationService orchestrationService;
 
-    @Scheduled(cron = "0 0/5 * * * *")
+//    @Scheduled(cron = "0 0/5 * * * *")
     @GetMapping(value = "/runJob")
     public void executeTransferTimeOutJob() {
         log.info("Execute Transfer TimeOut Job start at: {}", new Date());

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class OrchestrationController {
     }
 
     @PostMapping("/transferMoney")
-    public ResponseEntity<Object> startTransferMoneyWorkflow(@RequestBody TransferMoneyRequestDTO transferMoneyRequestDTO) {
+    public ResponseEntity<Object> startTransferMoneyWorkflow(@RequestBody TransferMoneyRequestDTO transferMoneyRequestDTO) throws ExecutionException, InterruptedException {
 
         log.info("Transfer Money", "Transfer " + transferMoneyRequestDTO.getAmount() +  transferMoneyRequestDTO.getUserSenderId() + " To" + transferMoneyRequestDTO.getUserReceiverId());
 

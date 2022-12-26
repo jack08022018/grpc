@@ -6,12 +6,18 @@ import com.example.orchestratorservice.enums.TaskQueue;
 import com.example.orchestratorservice.model.Order;
 import com.example.orchestratorservice.model.TransactionHistory;
 import com.example.orchestratorservice.workflow.*;
+import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
+import io.temporal.workflow.Async;
+import io.temporal.workflow.Promise;
+import io.temporal.workflow.Workflow;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 public class WorkflowOrchestratorImpl implements WorkflowOrchestrator {
@@ -36,19 +42,21 @@ public class WorkflowOrchestratorImpl implements WorkflowOrchestrator {
     }
 
     @Override
-    public void startTransferMoneyWorkflow(TransferMoneyRequestDTO transferMoneyRequestDTO, TransactionHistory transactionHistory) {
-        var workflowClient = workflowOrchestratorClient.getWorkflowClient();
+    public void startTransferMoneyWorkflow(TransferMoneyRequestDTO transferMoneyRequestDTO, TransactionHistory transactionHistory) throws ExecutionException, InterruptedException {
+        WorkflowClient workflowClient = workflowOrchestratorClient.getWorkflowClient();
 
-        var transferMoneyWorkflow =
-            workflowClient.newWorkflowStub(
+        TransferMoneyWorkflow transferMoneyWorkflow = workflowClient.newWorkflowStub(
                 TransferMoneyWorkflow.class,
                 WorkflowOptions.newBuilder()
-                               //TODO
-//                                .setWorkflowId("OrderFulfillmentWorkflow" + "-" + orderDTO.getOrderId())
-                               .setWorkflowId("TransferMoneyWorkflow-" + "-" + transactionHistory.getId())
-                               .setTaskQueue(TaskQueue.TRANSFER_MONEY_WORKFLOW_TASK_QUEUE.name())
-                               .build());
+                   .setWorkflowId("TransferMoneyWorkflow-" + "-" + transactionHistory.getId())
+                   .setTaskQueue(TaskQueue.TRANSFER_MONEY_WORKFLOW_TASK_QUEUE.name())
+                   .build());
         WorkflowClient.start(transferMoneyWorkflow::startTransferMoneyWorkflow, transferMoneyRequestDTO, transactionHistory);
+//        CompletableFuture<Void> childExecution = WorkflowClient.execute(transferMoneyWorkflow::startTransferMoneyWorkflow, transferMoneyRequestDTO, transactionHistory);
+//        childExecution.get();
+
+//        WorkflowClient.execute(transferMoneyWorkflow::startTransferMoneyWorkflow, transferMoneyRequestDTO, transactionHistory);
+//        Async.procedure(transferMoneyWorkflow::startTransferMoneyWorkflow, transferMoneyRequestDTO, transactionHistory);
     }
 
     private OrderDTO map(Order order) {

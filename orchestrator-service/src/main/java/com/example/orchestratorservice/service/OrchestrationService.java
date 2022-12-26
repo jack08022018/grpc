@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Service
@@ -35,7 +36,7 @@ public class OrchestrationService {
         return new Order();
     }
 
-    public TransactionHistory startTransferMoneyWorkflow(TransferMoneyRequestDTO transferMoneyRequestDTO) {
+    public TransactionHistory startTransferMoneyWorkflow(TransferMoneyRequestDTO transferMoneyRequestDTO) throws ExecutionException, InterruptedException {
         log.info("Start transfer money service..");
         String transactionId = UUID.randomUUID().toString();
         TransactionHistory transactionHistory = new TransactionHistory();
