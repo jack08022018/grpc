@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/grpc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/grpc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/orchestrator-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/orchestrator-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/receiver-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/receiver-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sacom-grpc.iml" filepath="$PROJECT_DIR$/.idea/sacom-grpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sender-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sender-service.main.iml" />
+    </modules>
+  </component>
+</project>

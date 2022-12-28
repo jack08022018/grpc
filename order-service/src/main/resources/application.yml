@@ -4,7 +4,7 @@ sender.url: localhost
 sender.port: 8001
 receiver.url: localhost
 receiver.port: 8002
-workflow.client.target: 127.0.0.1:7233
+workflow.client.url: 127.0.0.1:7233
 server:
   port: 9000
   servlet.context-path: /order

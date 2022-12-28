@@ -30,8 +30,8 @@ public class ReceiverServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserEntity user1 = new UserEntity("REC001", "Receive 1", 800000L);
-        UserEntity user2 = new UserEntity("REC002", "Receive 2", 800000L);
+        UserEntity user1 = new UserEntity("REC001", "Receive 1", 1000000L);
+        UserEntity user2 = new UserEntity("REC002", "Receive 2", 1000000L);
         userRepository.save(user1);
         userRepository.save(user2);
 

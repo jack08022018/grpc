@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc
+  template:
+    metadata:
+      labels:
+        app: grpc
+    spec:
+      containers:
+        - name: grpc
+          image: sacom-grpc:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 9000        # The port inside the cluster
+      targetPort: 9000  # The port exposed by the service
+  type: NodePort        # Type of service
+  selector:
+    app: grpc

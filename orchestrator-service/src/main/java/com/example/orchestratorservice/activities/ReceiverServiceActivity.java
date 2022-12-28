@@ -6,6 +6,5 @@ import io.temporal.activity.ActivityInterface;
 
 @ActivityInterface
 public interface ReceiverServiceActivity {
-
     void updateMoney(TransferMoneyReceiverRequestDto transferMoneyReceiverRequestDto) throws TimeoutException;
 }
