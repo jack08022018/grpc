@@ -1,6 +1,5 @@
 package com.order.worker;
 
-import com.order.activities.SenderServiceActivity;
 import com.order.activities.TransferActivities;
 import com.order.enumerator.TaskQueue;
 import com.order.workflow.impl.TransferMoneyWorkflowImpl;
@@ -25,14 +24,16 @@ public class TransferMoneyWorker {
     @PostConstruct
     public void createWorker() {
         var workerOptions = WorkerOptions.newBuilder().build();
-        WorkflowImplementationOptions workflowOptions = WorkflowImplementationOptions.newBuilder()
-                        .setFailWorkflowExceptionTypes(NullPointerException.class)
-                        .build();
+        var workflowOptions = WorkflowImplementationOptions
+                .newBuilder()
+                .setFailWorkflowExceptionTypes(NullPointerException.class)
+                .build();
         var workerFactory = WorkerFactory.newInstance(workflowClientCustom);
         var worker = workerFactory.newWorker(
                 TaskQueue.TRANSFER_MONEY_WORKFLOW.name(),
                 workerOptions);
         worker.registerWorkflowImplementationTypes(workflowOptions, TransferMoneyWorkflowImpl.class);
+
         worker.registerActivitiesImplementations(transferActivities);
         workerFactory.start();
     }
