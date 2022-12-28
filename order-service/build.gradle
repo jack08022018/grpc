@@ -3,12 +3,11 @@ plugins {
     id 'com.google.protobuf' version "0.9.1"
     id 'org.springframework.boot' version '2.7.7'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-//    id("org.graalvm.buildtools.native") version "0.9.18"
 }
 
 group = 'com.example'
 version = '0.0.1'
-sourceCompatibility = '19'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {

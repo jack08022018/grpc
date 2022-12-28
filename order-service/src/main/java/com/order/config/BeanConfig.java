@@ -60,7 +60,7 @@ public class BeanConfig {
         return restTemplate;
     }
 
-    @Bean(name = "WorkflowClient")
+    @Bean(name = "workflowClientCustom")
     public WorkflowClient getWorkflowClient() {
         var options = WorkflowServiceStubsOptions.newBuilder()
                 .setTarget(env.getProperty("workflow.client.url"))
