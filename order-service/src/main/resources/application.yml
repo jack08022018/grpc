@@ -1,4 +1,11 @@
-grpc.server.port: 8000
+grpc:
+  server.port: 8000
+  client:
+    sender-service:
+      address: 'localhost:8001'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
 
 sender.url: localhost
 sender.port: 8001

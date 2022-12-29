@@ -25,7 +25,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ApiServiceImpl implements ApiService {
     final WorkflowClient workflowClientCustom;
-    final TransferActivities transferActivities;
 
     @Override
     public void transferMoneyWorkflow(TransferMoneyDto dto) {
@@ -33,8 +32,8 @@ public class ApiServiceImpl implements ApiService {
         TransferMoneyWorkflow flow = workflowClientCustom.newWorkflowStub(
             TransferMoneyWorkflow.class,
             WorkflowOptions.newBuilder()
-                .setWorkflowId(TaskQueue.TRANSFER_MONEY_WORKFLOW.name() + "_" + dto.getTransactionId())
-                .setTaskQueue(TaskQueue.TRANSFER_MONEY_WORKFLOW.name())
+                .setWorkflowId(TaskQueue.TRANSFER_MONEY.name() + "_" + dto.getTransactionId())
+                .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
                 .build());
         flow.transferMoney(dto);
 //        WorkflowClient.start(flow::transferMoney, dto);

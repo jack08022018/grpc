@@ -29,11 +29,8 @@ public class TransferMoneyWorker {
                 .setFailWorkflowExceptionTypes(NullPointerException.class)
                 .build();
         var workerFactory = WorkerFactory.newInstance(workflowClientCustom);
-        var worker = workerFactory.newWorker(
-                TaskQueue.TRANSFER_MONEY_WORKFLOW.name(),
-                workerOptions);
+        var worker = workerFactory.newWorker(TaskQueue.TRANSFER_MONEY.name(), workerOptions);
         worker.registerWorkflowImplementationTypes(workflowOptions, TransferMoneyWorkflowImpl.class);
-
         worker.registerActivitiesImplementations(transferActivities);
         workerFactory.start();
     }

@@ -1,7 +1,7 @@
 package com.order.config;
 
 import com.order.common.FunctionCommonUtils;
-import com.order.config.exception.ErrorResponse;
+import com.order.exception.ErrorResponse;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

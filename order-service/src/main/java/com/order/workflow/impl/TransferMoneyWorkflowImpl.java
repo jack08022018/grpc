@@ -1,34 +1,22 @@
 package com.order.workflow.impl;
 
-import com.order.activities.ReceiverServiceActivity;
-import com.order.activities.SenderServiceActivity;
 import com.order.activities.TransferActivities;
-import com.order.common.ActivityMaker;
 import com.order.dto.TransferMoneyDto;
 import com.order.enumerator.TaskQueue;
 import com.order.workflow.TransferMoneyWorkflow;
 import io.temporal.activity.ActivityOptions;
-import io.temporal.client.WorkflowOptions;
 import io.temporal.common.RetryOptions;
-import io.temporal.worker.WorkerFactory;
-import io.temporal.worker.WorkerOptions;
-import io.temporal.worker.WorkflowImplementationOptions;
 import io.temporal.workflow.Workflow;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
-import java.util.UUID;
 
 @Slf4j
-//@Component
 public class TransferMoneyWorkflowImpl implements TransferMoneyWorkflow {
 
-    private final ActivityOptions options =
-            ActivityOptions.newBuilder()
+    private final ActivityOptions options = ActivityOptions.newBuilder()
                     .setStartToCloseTimeout(Duration.ofSeconds(10))
-                    .setTaskQueue(TaskQueue.TRANSFER_MONEY_WORKFLOW.name())
+                    .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
                     .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
                     .build();
 

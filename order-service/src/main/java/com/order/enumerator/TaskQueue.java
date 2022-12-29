@@ -1,7 +1,7 @@
 package com.order.enumerator;
 
 public enum TaskQueue {
-    TRANSFER_MONEY_WORKFLOW,
+    TRANSFER_MONEY,
 
     PAYMENT_ACTIVITY_TASK_QUEUE,
     INVENTORY_ACTIVITY_TASK_QUEUE,

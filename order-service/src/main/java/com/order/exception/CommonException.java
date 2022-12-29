@@ -1,4 +1,4 @@
-package com.order.config.exception;
+package com.order.exception;
 
 public class CommonException extends Exception {
     public CommonException() {}
