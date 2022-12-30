@@ -1,7 +1,6 @@
 package com.example.receiverservice.controller;
 
 
-import com.example.receiverservice.service.ReceiverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

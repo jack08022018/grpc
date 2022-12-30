@@ -4,11 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.order.enumerator.TaskQueue;
+import com.order.enumerator.TemporalTaskQueue;
 import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowOptions;
+import io.temporal.common.RetryOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +24,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.concurrent.Executor;
 
 //@EnableAsync
@@ -62,12 +68,30 @@ public class BeanConfig {
         return restTemplate;
     }
 
-    @Bean(name = "workflowClientCustom")
-    public WorkflowClient getWorkflowClient() {
-        var options = WorkflowServiceStubsOptions.newBuilder()
-                .setTarget(env.getProperty("workflow.client.url"))
-                .build();
-        var serviceStubs = WorkflowServiceStubs.newServiceStubs(options);
-        return WorkflowClient.newInstance(serviceStubs);
+//    @Bean(name = "workflowClientCustom")
+//    public WorkflowClient getWorkflowClient() {
+//        var options = WorkflowServiceStubsOptions.newBuilder()
+//                .setTarget(env.getProperty("workflow.client.url"))
+//                .build();
+//        var serviceStubs = WorkflowServiceStubs.newServiceStubs(options);
+//        return WorkflowClient.newInstance(serviceStubs);
+//    }
+
+    @Bean
+    @Qualifier("customerWorkflowOptions")
+    WorkflowOptions customerWorkflowOptions() {
+        return WorkflowOptions.newBuilder()
+            .setTaskQueue(TemporalTaskQueue.CREATE.toString())
+            .setWorkflowExecutionTimeout(Duration.ofMillis(60000))
+            .setWorkflowTaskTimeout(Duration.ofMillis(1000))
+            .setRetryOptions(RetryOptions.newBuilder()
+                        .setMaximumAttempts(1)
+                        .build())
+            .build();
     }
+
+//    WorkflowOptions.newBuilder()
+//            .setWorkflowId(TaskQueue.TRANSFER_MONEY.name() + "_" + dto.getTransactionId())
+//            .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
+//            .build());
 }

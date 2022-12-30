@@ -24,7 +24,7 @@ dependencies {
     implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.6'
-    implementation project(path: ':')
+    implementation 'net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
@@ -33,13 +33,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3")
     runtimeOnly("com.h2database:h2")
 
-    compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5' // Java 9+ compatibility - Do NOT update to 2.0.0
+    compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5'
     implementation "io.grpc:grpc-protobuf:1.35.0"
     implementation "io.grpc:grpc-stub:1.35.0"
     implementation "io.grpc:grpc-netty:1.35.0"
     implementation "io.grpc:grpc-services:1.35.0"
+    implementation 'io.temporal:temporal-sdk:1.17.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3'
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 }
-
 sourceSets {
     main {
         proto {
@@ -56,25 +58,31 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:1.39.0"
         }
     }
-    generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java/com/example/receiverservice/grpc"
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+//        ofSourceSet('main').each { task ->
+//            task.builtins {
+//                java {
+//                    outputSubDir = 'grpc'
+//                }
+//            }
+//            task.plugins {
+//                grpc {
+//                    outputSubDir = 'grpc'
+//                }
+//            }
+//        }
+    }
+//    generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java/com/grpc"
+    generateProtoTasks.generatedFilesBaseDir = "generated-sources"
     clean {
         delete generatedFilesBaseDir
     }
-    generateProtoTasks {
-//        all()*.plugins {
-//            grpc {}
-//        }
-        ofSourceSet('main').each { task ->
-            task.builtins {
-                java {
-                    outputSubDir = 'grpc'
-                }
-            }
-            task.plugins {
-                grpc {
-                    outputSubDir = 'grpc'
-                }
-            }
-        }
-    }
 }
+//tasks.withType(Copy) {
+//    filesMatching("**/*.proto") {
+//        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+//    }
+//}

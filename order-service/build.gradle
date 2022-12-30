@@ -32,6 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3")
     runtimeOnly("com.h2database:h2")
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5'
     implementation "io.grpc:grpc-protobuf:1.35.0"
@@ -47,10 +48,6 @@ sourceSets {
         proto {
             srcDir 'src/main/resources/proto'
         }
-        java {
-            // include self written and generated code
-            srcDirs 'src/main/java'
-        }
     }
 }
 protobuf {
@@ -62,18 +59,13 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:1.39.0"
         }
     }
-    generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java/com/generated"
-    clean {
-        delete generatedFilesBaseDir
-    }
     generateProtoTasks {
         all()*.plugins {
             grpc {}
         }
     }
+    generateProtoTasks.generatedFilesBaseDir = "generated-sources"
+    clean {
+        delete generatedFilesBaseDir
+    }
 }
-//tasks.withType(Copy) {
-//    filesMatching("**/*.proto") {
-//        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-//    }
-//}

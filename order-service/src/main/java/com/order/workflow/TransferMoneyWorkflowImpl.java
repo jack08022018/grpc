@@ -1,4 +1,4 @@
-package com.order.workflow.impl;
+package com.order.workflow;
 
 import com.order.activities.TransferActivities;
 import com.order.dto.TransferMoneyDto;

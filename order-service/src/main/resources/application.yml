@@ -1,21 +1,42 @@
-grpc:
-  server.port: 8000
-  client:
-    sender-service:
-      address: 'localhost:8001'
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-
-sender.url: localhost
-sender.port: 8001
-receiver.url: localhost
-receiver.port: 8002
-workflow.client.url: 127.0.0.1:7233
 server:
   port: 9000
   servlet.context-path: /order
   undertow.max-http-post-size: 0
+grpc:
+  server.port: 8000
+  client:
+    sender-service:
+      address: 'static://localhost:8001'
+#      enableKeepAlive: true
+#      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+temporal:
+  server: 127.0.0.1:7233
+  isUseSsl: false
+  namespace: 'temporal'
+  workflowTaskTimeoutConfig: 1000 #millisec
+  #default activity
+  defaultActivityStartToCloseTimeout: 15 #second
+  defaultActivityMaximumRetryAttempts: 50
+  #default local activity
+  defaultLocalActivityStartToCloseTimeout: 15 #second
+  defaultLocalActivityMaximumRetryAttempts: 9999
+  defaultLocalActivityRetryInterval: 10 #millisec
+  #getInfo
+  getInfoStartToCloseTimeout: 5 #second
+  getInfoMaximumAttempts: 5
+  worker:
+    maxConcurrentActivityTaskPollers: 25 #default 5
+    maxConcurrentWorkflowTaskPollers: 10 #default 2
+    maxConcurrentActivityExecutionSize: 200 #default 200
+    maxConcurrentWorkflowTaskExecutionSize: 200 #default 200
+    maxConcurrentLocalActivityExecutionSize: 200 #default 200
+    maxWorkerActivitiesPerSecond: 0 #default 0 means unlimited
+    maxTaskQueueActivitiesPerSecond: 0 #default O means unlimited
+  workerFactory:
+    maxWorkflowThread Count: 600 #default 600
+    workflowHostLocalPollThreadCount: 5 #default 5
+
 spring:
   application.name: order
   main.allow-bean-definition-overriding: true
