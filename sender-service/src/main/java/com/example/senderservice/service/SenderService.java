@@ -5,9 +5,7 @@ import com.example.senderservice.entity.UserEntity;
 import com.example.senderservice.repository.TransactionRepository;
 import com.example.senderservice.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sender.SenderServiceGrpc;
-import com.sender.TransactionRequest;
-import com.sender.TransactionResponse;
+import com.sender.*;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -92,6 +90,16 @@ public class SenderService extends SenderServiceGrpc.SenderServiceImplBase {
 
         transaction.setStatus(com.example.senderservice.enumerator.Status.REFUND);
         transactionRepository.save(transaction);
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void hello(HelloRequest dto, StreamObserver<HelloResponse> responseObserver) {
+        HelloResponse response = HelloResponse.newBuilder()
+                .setOutput("Hello: " + dto.getInput())
+                .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

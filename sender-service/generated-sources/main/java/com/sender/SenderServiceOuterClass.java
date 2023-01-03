@@ -24,6 +24,16 @@ public final class SenderServiceOuterClass {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_TransactionResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_HelloRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_HelloRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_HelloResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_HelloResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -37,10 +47,13 @@ public final class SenderServiceOuterClass {
       "est\022\025\n\rtransactionId\030\001 \001(\t\022\021\n\taccountId\030" +
       "\002 \001(\t\022\023\n\013recipientId\030\003 \001(\t\022\023\n\013debitAmoun" +
       "t\030\004 \001(\003\"%\n\023TransactionResponse\022\016\n\006result" +
-      "\030\001 \001(\t2y\n\rSenderService\0223\n\006deduct\022\023.Tran" +
-      "sactionRequest\032\024.TransactionResponse\0223\n\006" +
-      "refund\022\023.TransactionRequest\032\024.Transactio" +
-      "nResponseB\016\n\ncom.senderP\001b\006proto3"
+      "\030\001 \001(\t\"\035\n\014HelloRequest\022\r\n\005input\030\001 \001(\t\"\037\n" +
+      "\rHelloResponse\022\016\n\006output\030\001 \001(\t2\241\001\n\rSende" +
+      "rService\0223\n\006deduct\022\023.TransactionRequest\032" +
+      "\024.TransactionResponse\0223\n\006refund\022\023.Transa" +
+      "ctionRequest\032\024.TransactionResponse\022&\n\005he" +
+      "llo\022\r.HelloRequest\032\016.HelloResponseB\016\n\nco" +
+      "m.senderP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -58,6 +71,18 @@ public final class SenderServiceOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TransactionResponse_descriptor,
         new java.lang.String[] { "Result", });
+    internal_static_HelloRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_HelloRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_HelloRequest_descriptor,
+        new java.lang.String[] { "Input", });
+    internal_static_HelloResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_HelloResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_HelloResponse_descriptor,
+        new java.lang.String[] { "Output", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

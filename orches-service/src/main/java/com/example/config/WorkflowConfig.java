@@ -1,17 +1,14 @@
-package com.order.config;
+package com.example.config;
 
-import com.order.activities.TransferActivities;
-import com.order.activities.impl.TransferActivitiesImpl;
-import com.order.adapter.SenderService;
-import com.order.adapter.SenderServiceImpl;
-import com.order.enumerator.TemporalTaskQueue;
-import com.order.workflow.TransferMoneyWorkflowImpl;
-import com.uber.m3.tally.RootScopeBuilder;
-import com.uber.m3.util.ImmutableMap;
+import com.example.activities.TransferActivitiesImpl;
+import com.example.adapter.SenderAdapter;
+import com.example.enumerator.TemporalTaskQueue;
+import com.example.workflow.TransferMoneyWorkflowImpl;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.activity.LocalActivityOptions;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
+import io.temporal.client.WorkflowOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
@@ -21,6 +18,7 @@ import io.temporal.worker.WorkerOptions;
 import io.temporal.worker.WorkflowImplementationOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,18 +26,30 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
-public class WorkflowClientConfig {
+public class WorkflowConfig {
     @Value("${temporal.server:127.0.0.1:7233}")
     String temporalDNS;
-    @Value("${temporal.namespace}")
+    @Value("${temporal.namespace:temporal}")
     String namespace;
 
     @Autowired
-    private SenderService senderService;
+    private SenderAdapter senderAdapter;
+
+    @Bean
+    @Qualifier("customerWorkflowOptions")
+    WorkflowOptions customerWorkflowOptions() {
+        return WorkflowOptions.newBuilder()
+                .setTaskQueue(TemporalTaskQueue.CREATE.toString())
+//                .setWorkflowExecutionTimeout(Duration.ofMillis(60000))
+//                .setWorkflowTaskTimeout(Duration.ofMillis(1000))
+                .setRetryOptions(RetryOptions.newBuilder()
+                        .setMaximumAttempts(1)
+                        .build())
+                .build();
+    }
 
     @Bean
     public WorkflowClient buildClient() throws InterruptedException {
@@ -72,22 +82,13 @@ public class WorkflowClientConfig {
                 .setDefaultLocalActivityOptions(localActivityOptions)
                 .build();
 
-        var workflowOptions = WorkflowServiceStubsOptions.newBuilder()
-                .setTarget(temporalDNS)
-                .build();
-//        var workflowClient = WorkflowClient.newInstance(
-//                WorkflowServiceStubs.newServiceStubs(workflowOptions),
-//                WorkflowClientOptions.newBuilder()
-//                        .setNamespace(namespace)
-//                        .build()
-//        );
         var workflowClient = WorkflowClient.newInstance(
                 WorkflowServiceStubs.newInstance(WorkflowServiceStubsOptions.newBuilder().setTarget(temporalDNS).build()),
                 WorkflowClientOptions.newBuilder()
                         .setNamespace("default")
                         .build()
         );
-        var transferActivities = new TransferActivitiesImpl(senderService);
+        var transferActivities = new TransferActivitiesImpl(senderAdapter);
         var factory = WorkerFactory.newInstance(workflowClient, WorkerFactoryOptions.newBuilder().build());
 
         WorkerOptions workerOptions = WorkerOptions.newBuilder().build();

@@ -90,8 +90,4 @@ public class BeanConfig {
             .build();
     }
 
-//    WorkflowOptions.newBuilder()
-//            .setWorkflowId(TaskQueue.TRANSFER_MONEY.name() + "_" + dto.getTransactionId())
-//            .setTaskQueue(TaskQueue.TRANSFER_MONEY.name())
-//            .build());
 }

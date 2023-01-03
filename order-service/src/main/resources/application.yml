@@ -10,6 +10,7 @@ grpc:
 #      enableKeepAlive: true
 #      keepAliveWithoutCalls: true
       negotiationType: plaintext
+#workflow.client.url: 127.0.0.1:7233
 temporal:
   server: 127.0.0.1:7233
   isUseSsl: false

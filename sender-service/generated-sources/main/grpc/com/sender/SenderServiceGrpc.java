@@ -76,6 +76,37 @@ public final class SenderServiceGrpc {
     return getRefundMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.sender.HelloRequest,
+      com.sender.HelloResponse> getHelloMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "hello",
+      requestType = com.sender.HelloRequest.class,
+      responseType = com.sender.HelloResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.sender.HelloRequest,
+      com.sender.HelloResponse> getHelloMethod() {
+    io.grpc.MethodDescriptor<com.sender.HelloRequest, com.sender.HelloResponse> getHelloMethod;
+    if ((getHelloMethod = SenderServiceGrpc.getHelloMethod) == null) {
+      synchronized (SenderServiceGrpc.class) {
+        if ((getHelloMethod = SenderServiceGrpc.getHelloMethod) == null) {
+          SenderServiceGrpc.getHelloMethod = getHelloMethod =
+              io.grpc.MethodDescriptor.<com.sender.HelloRequest, com.sender.HelloResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "hello"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.sender.HelloRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.sender.HelloResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SenderServiceMethodDescriptorSupplier("hello"))
+              .build();
+        }
+      }
+    }
+    return getHelloMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +169,13 @@ public final class SenderServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getRefundMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void hello(com.sender.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.sender.HelloResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getHelloMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -154,6 +192,13 @@ public final class SenderServiceGrpc {
                 com.sender.TransactionRequest,
                 com.sender.TransactionResponse>(
                   this, METHODID_REFUND)))
+          .addMethod(
+            getHelloMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                com.sender.HelloRequest,
+                com.sender.HelloResponse>(
+                  this, METHODID_HELLO)))
           .build();
     }
   }
@@ -187,6 +232,14 @@ public final class SenderServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getRefundMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void hello(com.sender.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.sender.HelloResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getHelloMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -215,6 +268,13 @@ public final class SenderServiceGrpc {
     public com.sender.TransactionResponse refund(com.sender.TransactionRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getRefundMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.sender.HelloResponse hello(com.sender.HelloRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getHelloMethod(), getCallOptions(), request);
     }
   }
 
@@ -247,10 +307,19 @@ public final class SenderServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getRefundMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.sender.HelloResponse> hello(
+        com.sender.HelloRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getHelloMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_DEDUCT = 0;
   private static final int METHODID_REFUND = 1;
+  private static final int METHODID_HELLO = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -276,6 +345,10 @@ public final class SenderServiceGrpc {
         case METHODID_REFUND:
           serviceImpl.refund((com.sender.TransactionRequest) request,
               (io.grpc.stub.StreamObserver<com.sender.TransactionResponse>) responseObserver);
+          break;
+        case METHODID_HELLO:
+          serviceImpl.hello((com.sender.HelloRequest) request,
+              (io.grpc.stub.StreamObserver<com.sender.HelloResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -340,6 +413,7 @@ public final class SenderServiceGrpc {
               .setSchemaDescriptor(new SenderServiceFileDescriptorSupplier())
               .addMethod(getDeductMethod())
               .addMethod(getRefundMethod())
+              .addMethod(getHelloMethod())
               .build();
         }
       }

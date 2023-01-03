@@ -1,12 +1,3 @@
-//buildscript {
-//    repositories {
-//        mavenCentral()
-//    }
-//    dependencies {
-//        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
-//    }
-//}
-
 plugins {
     id 'java'
     id 'com.google.protobuf' version "0.9.1"
@@ -39,15 +30,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3")
     runtimeOnly("com.h2database:h2")
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5' // Java 9+ compatibility - Do NOT update to 2.0.0
-    implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
-    implementation "io.grpc:grpc-protobuf:1.35.0"
-    implementation "io.grpc:grpc-stub:1.35.0"
-    implementation "io.grpc:grpc-netty:1.35.0"
-    implementation "io.grpc:grpc-services:1.35.0"
+    implementation 'net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE'
+    implementation 'io.temporal:temporal-sdk:1.17.0'
 }
-
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/resources/proto'
+        }
+    }
+}
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.17.2"
@@ -57,13 +51,13 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:1.39.0"
         }
     }
-    generateProtoTasks.generatedFilesBaseDir = 'generated-sources'
-    clean {
-        delete generatedFilesBaseDir
-    }
     generateProtoTasks {
         all()*.plugins {
             grpc {}
         }
+    }
+    generateProtoTasks.generatedFilesBaseDir = "generated-sources"
+    clean {
+        delete generatedFilesBaseDir
     }
 }

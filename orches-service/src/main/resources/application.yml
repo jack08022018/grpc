@@ -1,0 +1,41 @@
+server:
+  port: 9000
+  servlet.context-path: /orches
+  undertow.max-http-post-size: 0
+
+grpc:
+  client:
+    sender-service:
+      address: 'static://localhost:8001'
+      #      enableKeepAlive: true
+      #      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+temporal:
+  server: 127.0.0.1:7233
+  isUseSsl: false
+  namespace: 'temporal'
+
+spring:
+  application.name: orches
+  main.allow-bean-definition-overriding: true
+  jackson.default-property-inclusion: non_absent
+  jpa:
+    properties.hibernate.format_sql: true
+    database: default
+    database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2.console.enabled: true
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.FilterChainProxy: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.boot.autoconfigure: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
