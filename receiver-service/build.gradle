@@ -1,3 +1,12 @@
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
+//    }
+//}
+
 plugins {
     id 'java'
     id 'com.google.protobuf' version "0.9.1"
@@ -21,10 +30,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.6'
-    implementation project(path: ':')
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
@@ -32,21 +39,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-log4j2:2.7.3")
     runtimeOnly("com.h2database:h2")
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.1'
+    implementation 'com.google.code.gson:gson:2.10'
+//    implementation 'org.json:json:20220924'
 
     compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5' // Java 9+ compatibility - Do NOT update to 2.0.0
+    implementation 'net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE'
     implementation "io.grpc:grpc-protobuf:1.35.0"
     implementation "io.grpc:grpc-stub:1.35.0"
     implementation "io.grpc:grpc-netty:1.35.0"
     implementation "io.grpc:grpc-services:1.35.0"
 }
 
-sourceSets {
-    main {
-        proto {
-            srcDir 'src/main/resources/proto'
-        }
-    }
-}
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.17.2"
@@ -56,25 +60,13 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:1.39.0"
         }
     }
-    generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java/com/example/receiverservice/grpc"
+    generateProtoTasks.generatedFilesBaseDir = 'generated-sources'
     clean {
         delete generatedFilesBaseDir
     }
     generateProtoTasks {
-//        all()*.plugins {
-//            grpc {}
-//        }
-        ofSourceSet('main').each { task ->
-            task.builtins {
-                java {
-                    outputSubDir = 'grpc'
-                }
-            }
-            task.plugins {
-                grpc {
-                    outputSubDir = 'grpc'
-                }
-            }
+        all()*.plugins {
+            grpc {}
         }
     }
 }

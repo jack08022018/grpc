@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.adapter.SenderAdapter;
+import com.example.dto.EntityModel;
 import com.example.dto.TransferMoneyDto;
 import com.example.service.ApiService;
 import com.sender.HelloRequest;
@@ -29,5 +30,16 @@ public class ApiController {
     public <T> T transferMoney(@RequestBody TransferMoneyDto dto) {
         apiService.transferMoneyWorkflow(dto);
         return (T) "success";
+    }
+
+    @GetMapping(value = "/getXml", produces = "application/xml")
+    public EntityModel getXml() {
+        EntityModel model = EntityModel.builder()
+                .ID("1")
+                .NAME("Darshan.G.Pawar")
+                .DOB("05-09-2001")
+                .PINCODE("422 009")
+                .build();
+        return model;
     }
 }

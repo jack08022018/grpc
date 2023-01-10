@@ -1,5 +1,6 @@
 package com.example.workflow;
 
+import com.example.activities.HelloActivities;
 import com.example.activities.TransferActivities;
 import com.example.dto.TransferMoneyDto;
 import com.example.enumerator.TaskQueue;
@@ -20,14 +21,14 @@ public class HelloWorkflowImpl implements HelloWorkflow {
                     .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
                     .build();
 
-    private final TransferActivities transferActivities = Workflow.newActivityStub(TransferActivities.class, options);
+    private final HelloActivities helloActivities = Workflow.newActivityStub(HelloActivities.class, options);
 
     @Override
     public ModelMap executeHello(String input) {
         log.info("Step1(Debit): Sender Service Deduct Money...");
         ModelMap result = new ModelMap();
         try {
-            result.put("sender: ", transferActivities.hello(input));
+            result.put("sender: ", helloActivities.helloSender(input));
         } catch (Exception e) {
             log.error("Sender Service Deduct Money Failed..." + e.getMessage());
         }

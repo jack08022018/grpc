@@ -38,9 +38,4 @@ public class TransferActivitiesImpl implements TransferActivities {
 
     }
 
-    @Override
-    public String hello(String input) {
-        HelloRequest request = HelloRequest.newBuilder().setInput(input).build();
-        return senderAdapter.hello(request).getOutput();
-    }
 }

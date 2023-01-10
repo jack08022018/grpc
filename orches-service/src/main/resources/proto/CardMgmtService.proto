@@ -1,0 +1,34 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.sender";
+
+message CardRequest {
+  string cifID = 1;
+  string stanID = 2;
+  string localDateTime = 3;
+  string channelID = 4;
+  string orgStanID = 5;
+  string orgDateTime = 6;
+  string cardCode = 7;
+  string cardNumber = 8;
+}
+
+message CardResponse {
+  string cifID = 1;
+  string stanID = 2;
+  string localDateTime = 3;
+  string restCode = 4;
+  string restField = 5;
+  string cardCode = 6;
+  string cardNumber = 7;
+  repeated DocDtl docDtls = 8;
+}
+
+message DocDtl {
+  string docID = 1;
+  string stmtDate = 2;
+}
+
+service SenderService {
+  rpc eWalletCardListInquiry(CardRequest) returns (CardResponse);
+}

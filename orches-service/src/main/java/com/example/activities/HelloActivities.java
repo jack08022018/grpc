@@ -5,13 +5,7 @@ import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
 @ActivityInterface
-public interface TransferActivities {
+public interface HelloActivities {
     @ActivityMethod
-    void deduct(TransferMoneyDto dto);
-
-    @ActivityMethod
-    void refund(TransferMoneyDto dto);
-
-    @ActivityMethod
-    void credit(TransferMoneyDto dto);
+    String helloSender(String input);
 }
