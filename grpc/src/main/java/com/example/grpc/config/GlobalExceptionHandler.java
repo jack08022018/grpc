@@ -2,6 +2,7 @@ package com.example.grpc.config;
 
 import com.example.grpc.common.FunctionCommonUtils;
 import com.example.grpc.config.exception.ErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.StatusRuntimeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -24,6 +26,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> mainExceptionHandler(Exception e, HandlerMethod handlerMethod, HttpServletRequest request) {
         log.error("MainExceptionHandler\n", e);
+        Map<String, Object> requestMap = null;
+        try {
+            requestMap = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
         ErrorResponse response = ErrorResponse.builder()
                 .timestamp(functionCommonUtils.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"))
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value() + "")

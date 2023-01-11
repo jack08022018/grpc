@@ -1,7 +1,7 @@
 package com.example.receiverservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -16,20 +16,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JacksonXmlRootElement(localName = "user")
-@JsonPropertyOrder({ "id", "name" })
-public class UserModel {
-    @JacksonXmlProperty(isAttribute = true)
-    private int id;
-
-    @JacksonXmlProperty(localName = "NAME_XML")
-    private String name;
+//@JacksonXmlRootElement(localName = "user")
+public class SacomModel {
+    @JacksonXmlProperty(localName = "CARDNUMBER")
+    private String cardNumber;
 
     @JacksonXmlElementWrapper(localName = "cards")
     @JacksonXmlProperty(localName = "card")
-    private List<CardModel> cards;
+    private List<Card> cards;
 
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "title")
-    private List<String> titles;
+    class Card {
+        @JsonAlias(value = "ID_")
+        private int id;
+
+        private String title;
+    }
 }
+
