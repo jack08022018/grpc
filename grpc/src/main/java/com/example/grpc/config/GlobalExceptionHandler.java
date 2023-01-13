@@ -57,4 +57,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(response);
     }
 
+//    @Component
+//    public class MyFilter implements Filter {
+//        @Override
+//        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+//                throws IOException, ServletException {
+//            ContentCachingRequestWrapper contentCachingRequestWrapper = new ContentCachingRequestWrapper(
+//                    (HttpServletRequest) servletRequest);
+//
+//            filterChain.doFilter(contentCachingRequestWrapper, servletResponse);
+//        }
+//    }
+//
+//    @RestControllerAdvice
+//    public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+//
+//        @Override
+//        protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+//                                                                      HttpStatus status, WebRequest request) {
+//
+//            ContentCachingRequestWrapper nativeRequest = (ContentCachingRequestWrapper) ((ServletWebRequest) request).getNativeRequest();
+//            String requestEntityAsString = new String(nativeRequest.getContentAsByteArray());
+//
+//            log.debug(requestEntityAsString);
+//
+//            return super.handleMethodArgumentNotValid(ex, headers, status, request);
+//        }
+//    }
+
 }
